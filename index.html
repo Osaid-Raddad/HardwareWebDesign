@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igris Robot Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1', // Unified primary color
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-all duration-300">
+
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-gray-800 shadow px-6 py-4 flex justify-between items-center">
+        <div class="text-xl font-bold">Igris Robot</div>
+        <div class="flex items-center gap-4">
+            <button id="modeBtn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-indigo-500 transition">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Heading -->
+    <header class="text-center mt-8">
+        <h1 class="text-4xl font-bold text-primary">Hi I'm Igris</h1>
+    </header>
+
+    <!-- Tabs -->
+    <div class="max-w-4xl mx-auto mt-8">
+        <div class="flex border-b border-gray-300 dark:border-gray-700">
+            <button id="autoTab" class="flex-1 py-3 text-center font-semibold bg-primary text-white dark:bg-primary">Auto Mode</button>
+            <button id="controlTab" class="flex-1 py-3 text-center font-semibold bg-gray-200 dark:bg-gray-700">Remote Control</button>
+        </div>
+
+        <!-- Auto Mode Content -->
+        <div id="autoContent" class="p-6">
+            <button class="w-full py-3 bg-primary text-white rounded-lg hover:bg-indigo-500 transition">Activate Auto Mode</button>
+        </div>
+
+        <!-- Remote Control Content -->
+        <div id="controlContent" class="p-6 hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <button onclick="logMessage('Stepper Motors Activated')" class="bg-primary text-white py-3 rounded-lg hover:bg-indigo-500 transition">Activate Stepper Motors</button>
+                <button onclick="logMessage('Bottle Recycling Servo Activated')" class="bg-primary text-white py-3 rounded-lg hover:bg-indigo-500 transition">Activate Bottle Servo</button>
+                <button onclick="logMessage('Camera Servo Activated')" class="bg-primary text-white py-3 rounded-lg hover:bg-indigo-500 transition">Activate Camera Servo</button>
+            </div>
+
+            <!-- Speed control buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+                <button onclick="logMessage('Speed set to Level 1')" class="bg-primary text-white py-3 rounded-lg hover:bg-indigo-500 transition">Speed Level 1</button>
+                <button onclick="logMessage('Speed set to Level 2')" class="bg-primary text-white py-3 rounded-lg hover:bg-indigo-500 transition">Speed Level 2</button>
+                <button onclick="logMessage('Speed set to Level 3')" class="bg-primary text-white py-3 rounded-lg hover:bg-indigo-500 transition">Speed Level 3</button>
+            </div>
+
+            <!-- Output box -->
+            <div class="mt-6 bg-gray-200 dark:bg-gray-700 p-4 rounded-lg min-h-[80px]" id="logBox">
+                <p class="text-sm opacity-70">Action messages will appear here...</p>
+            </div>
+        </div>
+
+        <!-- Ultrasonic readings -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg">Front Right: -- cm</div>
+            <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg">Front Left: -- cm</div>
+            <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg">Back Right: -- cm</div>
+            <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg">Back Left: -- cm</div>
+        </div>
+    </div>
+
+    <script>
+        // Dark / Light mode toggle
+        document.getElementById("modeBtn").addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+        });
+
+        // Tab switching
+        const autoTab = document.getElementById("autoTab");
+        const controlTab = document.getElementById("controlTab");
+        const autoContent = document.getElementById("autoContent");
+        const controlContent = document.getElementById("controlContent");
+
+        autoTab.addEventListener("click", () => {
+            autoContent.classList.remove("hidden");
+            controlContent.classList.add("hidden");
+            autoTab.classList.add("bg-primary", "text-white", "dark:bg-primary");
+            controlTab.classList.remove("bg-primary", "text-white", "dark:bg-primary");
+            controlTab.classList.add("bg-gray-200", "dark:bg-gray-700");
+        });
+
+        controlTab.addEventListener("click", () => {
+            controlContent.classList.remove("hidden");
+            autoContent.classList.add("hidden");
+            controlTab.classList.add("bg-primary", "text-white", "dark:bg-primary");
+            autoTab.classList.remove("bg-primary", "text-white", "dark:bg-primary");
+            autoTab.classList.add("bg-gray-200", "dark:bg-gray-700");
+        });
+
+        // Log box messages
+        function logMessage(msg) {
+            document.getElementById("logBox").innerHTML = `<p>${msg}</p>`;
+        }
+    </script>
+
+</body>
+</html>
